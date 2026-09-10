@@ -91,8 +91,8 @@ If `company` or `role` end up empty → ask the user, ONE question total: "Could
 | `--cl-pages N` | Hard page cap for the cover letter. Unset by default — the letter runs as long as the content and the examples warrant. |
 | `--ref N` | How many references to print, when the template has a References section. Default 1. `--ref 0` drops the section. See §2e. |
 | `--cl-only` | Cover letter + outreach only. See §2d. |
-| `--cover` | Write cover letter + outreach unconditionally (skip the §11c ask). |
-| `--no-cover` | Skip the §11c ask; gap report only. |
+| `--cover` | Write cover letter + outreach unconditionally (skip the §2f ask). |
+| `--no-cover` | Skip the §2f ask; gap report only. |
 | `--target N` | ATS-readiness floor (default `default_target_score` from `paths.yaml`, else 85). Formatting only — it does **not** raise the JD-fit bar, which is never gated. See §8. |
 
 Flags combine and are independent, with one deliberate exception: `--pages` also selects the default layout, so `--pages 2` alone gives the two-page layout at two pages rather than the one-page layout with room to spill (§2c). `--template X` alone uses layout X but still enforces one page.
@@ -175,6 +175,43 @@ References go **last**, after every other section, regardless of where they sit 
 
 Never invent a referee, an email, or a title. This is the no-fabrication rule at its sharpest, since a wrong address reaches a real person.
 
+### 2f. Cover letter — decided up front, never at the end
+
+The cover-letter decision is made **before any work starts**. It is the last thing
+resolved in §2 and the last thing said before §3 begins.
+
+Order inside §2: intake → metadata → flags (§2b–§2e) → **this decision** → echo the
+resolved settings → §3.
+
+| Situation | Decision | Ask? |
+|---|---|---|
+| `--cover`, or plain language asking for a letter | `cover: true` | no |
+| `--no-cover`, or plain language declining one | `cover: false` | no |
+| `--cl-only` | `cover: true` by definition — the letter is the whole run | no |
+| Neither given | whatever the user answers | **yes** |
+
+When neither flag is present, ask exactly this, and wait:
+
+```
+Want a cover letter and/or recruiter outreach draft for this role? [Y/n]
+```
+
+Bare Enter or anything affirmative → `cover: true`. `n` → `cover: false`.
+
+**This question blocks.** Do not run §3 module selection, do not write `resume.tex`,
+do not compile, do not score. Ask, wait, then start.
+
+The reason it lives here and not at the end: a question asked after the résumé ships
+sits behind ten sections of work, and in practice the agent finishes the résumé and
+declares the run done without ever asking. Up front it is unmissable, and the answer
+is available to every later step.
+
+If §2e also needs a question (`--ref N` greater than 1), ask both in one prompt — one
+interruption per run, not two.
+
+Carry the answer to §11 as `cover`, and name it in the resolved-settings echo:
+*"2 pages, layout `2page` (resume-2page-blue.tex.tmpl), 1 reference, cover letter on."*
+
 ---
 
 ## 3. Module selection — deterministic prefilter, LLM final pick
@@ -253,7 +290,8 @@ When the JD uses specific nouns that the profile genuinely covers in concept, mi
 Only mirror when the underlying experience is genuine. Mirroring without evidence = fabrication.
 
 ### Skills rules
-- Categorized lines (see template). 
+- **Write the Skills section in whatever markup the chosen template demonstrates, exactly.** Some layouts use an inline `\textbf{Category:} list` line per category; others define a macro — `\rskillgroup{Category}{list}` in the personal 2-page layout — that puts the category on its own bold line with the comma list as a bullet beneath it. Read the template's own Skills block and match it. Never flatten a macro back to the inline form because the inline form is what you saw last time, and never call a macro the template does not define.
+- The template fixes the *shape*; the profile and the JD decide how many categories there are and what they are called. 
 - Only skills with profile evidence. Do NOT add a skill from the JD just to match it.
 - Surface skills the profile has but the scorer's parser might miss (e.g., move `Apache Airflow` into Frameworks line even if it's only in a project bullet — Tier 1 gazetteer scans the whole document but the Skills section is a stronger signal).
 
@@ -297,6 +335,8 @@ The bundled templates all carry the block above. If a custom template lacks it, 
 | `\rsummary{...}` | The Summary paragraph. Justified, and writes `SUMMARY-LINES: N` to the log (§6 check 7). |
 | `\rsubgroup{Theme}` | 2-page layouts only. A themed workstream inside one role — an open-circle marker plus bold text, indented one step so it reads as a child of the job title rather than a peer of it. |
 | `rsubitems` | The itemize that belongs to an `\rsubgroup`, indented one step further. A role with a single focus takes a plain `itemize` at the margin instead. |
+
+**A template may define macros beyond this table.** The table covers what the bundled layouts ship; a custom or personal layout can add its own (for example `\rskillgroup` in the personal 2-page blue). The template body is the authority on which macros exist and how its sections are written — read it, do not assume this table is exhaustive.
 
 Do not flatten `\rsubgroup` back to a flush-left `\textbf{...}`: at the margin it looks like another job title. Its `$\circ$` marker is measured rather than assumed — it scores identically to a text-only heading (ATS 100, JD 63 on the bundled 2-page layout) and the extractor reads the line as a list item instead of a stray bold line. Glyphs stay on the marker; never put one inside bullet text.
 
@@ -477,9 +517,14 @@ Nothing written outside this folder.
 After accept gate passes (or after best-effort exhaustion), one LLM pass writes `recommendations.md`.
 
 ### Trigger
-- **Default:** agent asks ONE question after résumé is shipped (see §11c).
-- **Flag override:** if user invoked `/tailor --cover` → skip the ask, write cover letter + outreach unconditionally.
-- **Flag override:** if user invoked `/tailor --no-cover` → skip the ask, write gap report only.
+
+**§11 never asks anything.** The cover-letter decision was settled in §2f, before any
+work started, and is carried here as `cover`.
+
+- `cover: true` → gap report + cover letter + outreach.
+- `cover: false` → gap report only.
+
+The gap report (§11a) is unconditional either way.
 
 ### 11a. Gap report (ALWAYS written)
 
@@ -509,19 +554,17 @@ For each unresolved entry from `run.json.unresolved`:
 
 If `run.json.unresolved` is empty → omit this section entirely. Do not write "No unresolved findings."
 
-### 11c. Opt-in: cover letter + outreach
+### 11c. Cover letter + outreach — act on the §2f answer
 
-If trigger is the default (no flag), agent asks ONE question after writing 10a (+ 10b if applicable):
+No question here. Read `cover`, decided in §2f before the run began.
 
-```
-Want a cover letter and/or recruiter outreach draft for this role? [Y/n]
-```
+- `cover: true` → write both, appended to `recommendations.md` (standalone `cover-letter.md`
+  under `--cl-only`, per §2d).
+- `cover: false` → write nothing beyond the gap report.
 
-- `Y` → write both, appended to `recommendations.md`.
-- `n` → write nothing more.
-
-If trigger was `--cover` → skip the ask, write both.
-If trigger was `--no-cover` → skip the ask, write nothing more.
+If you reach this point and `cover` was never established, §2f was skipped. That is a bug in
+the run, not a licence to ask now: say so plainly, ship the gap report, and tell the user
+`--cover` will produce the letter without re-running the résumé pass.
 
 ### 11d. Cover letter rules
 

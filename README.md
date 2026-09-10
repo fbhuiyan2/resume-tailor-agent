@@ -12,7 +12,7 @@
 
 **[Try the underlying scorer in your browser →](https://open-ats-site.pages.dev/)** &nbsp;·&nbsp; **[CLI scorer source](https://github.com/NoahMustafa/open-ATS)**
 
-A derivative of **[NoahMustafa/open-resume-agent](https://github.com/NoahMustafa/open-resume-agent)**, created and modified by **Fakhrul Hasan Bhuiyan**. MIT.
+A derivative of **[NoahMustafa/open-resume-agent](https://github.com/NoahMustafa/open-resume-agent)**, created and modified by **Fakhrul Hasan Bhuiyan**.
 
 </div>
 
@@ -98,7 +98,7 @@ Inputs (all optional, all in `inputs/`, contents gitignored):
 Playbook: [`skills/profile-build/SKILL.md`](skills/profile-build/SKILL.md)
 
 ### `/tailor` — JD → tailored PDF + recommendations
-End-to-end per-job flow. Non-interactive except one optional question at the end (cover letter / outreach).
+End-to-end per-job flow. Non-interactive except one question, asked **up front** before any work starts: whether you want a cover letter and outreach draft. Pass `--cover` or `--no-cover` and it is not asked at all.
 
 **JD intake — two ways:**
 - **Paste** — drop the JD into chat between triple-backticks or quotes.
@@ -113,8 +113,8 @@ Flags:
 - `/tailor --cl-template X` — cover letter layout (default `cover-letter`).
 - `/tailor --cl-pages N` — hard page cap for the cover letter. Unset by default; length follows the style examples in `inputs/cover-letter-examples/`.
 - `/tailor --cl-only` — cover letter and outreach only, no resume. Note this path skips the ATS accept gate entirely.
-- `/tailor --cover` — write cover letter + outreach unconditionally.
-- `/tailor --no-cover` — skip the end-of-run ask.
+- `/tailor --cover` — write cover letter + outreach unconditionally; skips the up-front ask.
+- `/tailor --no-cover` — gap report only; skips the up-front ask.
 - `/tailor --target 90` — raise the ATS-readiness floor (default 85). Formatting only; it does not raise the JD-fit bar, which is never gated.
 
 > **The flags are optional.** `/tailor` is a playbook an agent reads, not a command parser, so plain language does the same work — and the two mix freely in one line.

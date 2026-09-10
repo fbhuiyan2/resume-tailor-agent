@@ -197,8 +197,8 @@ Cloning the private repo into `~/.claude/skills/` is what makes it load as a ski
 | `/tailor --cl-template X` | Cover letter layout. Name in `templates/`, or any path. |
 | `/tailor --cl-pages 1` | Cap the cover letter at N whole pages. Uncapped by default; no fractional budgets. |
 | `/tailor --cl-only` | Cover letter + outreach only. No PDF, no compile, no scoring. |
-| `/tailor --cover` | Write the cover letter unconditionally, skipping the end-of-run ask. |
-| `/tailor --no-cover` | Gap report only. |
+| `/tailor --cover` | Write the cover letter unconditionally, skipping the up-front ask. |
+| `/tailor --no-cover` | Gap report only, skipping the up-front ask. |
 | `/tailor --target 90` | Raise the accept-gate score floor (default 85). |
 | `/profile-build` | Rebuild `profile.json` after a new paper, project, or role. |
 | `/resume-engine-setup` | Fetch or upgrade the binaries. |
@@ -230,6 +230,16 @@ resume_template:
 ```
 
 `default` and `default_2page` are the two reserved keys — they are what `--pages` selects between. Everything else is a name you can ask for. Leave the key out entirely and the same rule runs against the bundled layouts: `resume` at one page, `resume-2page` above.
+
+If you pass neither `--cover` nor `--no-cover`, `/tailor` asks once — **before it does any
+work at all**, not after the résumé is built:
+
+```
+Want a cover letter and/or recruiter outreach draft for this role? [Y/n]
+```
+
+That is the only interruption in a normal run. It sits at the front deliberately: a question
+at the end of a long run is one the agent tends to skip.
 
 The cover letter has no default length. It follows whatever `inputs/cover-letter-examples/` shows — a short industry letter or a long research-staff one organized by posting requirement — and only `--cl-pages N` imposes a hard cap.
 
