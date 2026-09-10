@@ -1,0 +1,131 @@
+% ==============================================================
+%  EXAMPLE COVER LETTER LAYOUT — moderncv "classic".
+%
+%  This is ONE example, not a required format. Copy it and change
+%  whatever you like. Selected with:
+%     /tailor --cover --cl-template cover-letter
+%     /tailor --cl-only --cl-template cover-letter
+%
+%  Agent: read this as the PATTERN and write a fresh .tex. Fill the
+%  \newcommand block and the body; leave the preamble alone unless
+%  the user asks for a different look.
+%
+%  Content rules live in the /tailor playbook §11d (cover letter)
+%  and §11e (outreach). The hard ones:
+%   - No fixed length. The style examples in inputs/cover-letter-
+%     examples/ govern length and organization; --cl-pages N caps
+%     the page count when the user passes it.
+%   - Every claim traces to profile.json. No fabrication.
+%   - Humanizer ruleset (references/blacklist.md) applies to every
+%     line: no em-dash punctuation, no "leverage"/"passionate about",
+%     no "I am writing to apply for", no "I look forward to hearing".
+%
+%  Layout notes:
+%   - The stock moderncv letter head prints a recipient block
+%     ("Hiring Manager / Unit / Organization") above the salutation.
+%     It is removed here: three lines the opening paragraph already
+%     says, costing roughly an inch. The \makeletterhead override
+%     below does that. Consequence: do NOT call \recipient — nothing
+%     reads it any more. If you restore the stock head, you must add
+%     \recipient{...}{...} back WITH NON-EMPTY arguments; empty ones
+%     abort the compile with "There's no line here to end."
+%   - Use newtxtext, NOT mathptmx. Under XeTeX mathptmx leaves the
+%     font unresolved (TU/ptm undefined) and silently substitutes.
+% ==============================================================
+
+\documentclass[11pt,letterpaper,roman]{moderncv}
+
+\moderncvstyle{classic}      % casual | classic | oldstyle | banking
+\moderncvcolor{black}        % black reproduces cleanly; color is fine for a human reader
+
+\usepackage{newtxtext,newtxmath}
+\usepackage[T1]{fontenc}
+\usepackage[scale=0.85]{geometry}
+\usepackage{ragged2e}
+
+% ---- sender (from profile.identity) ----
+\name{First}{Last}
+\address{City, ST}
+\phone[mobile]{+1 555 555 5555}
+\email{name@lab.gov}
+% \homepage{example.com}                 % optional
+% \social[linkedin]{username}            % optional
+
+% ---- letter head: sender block, then straight into the salutation ----
+% This is \makeletterhead from moderncvheadi.sty with two pieces cut:
+% the recipient minipage and the date line. Everything else verbatim.
+% To put the date back, uncomment the \@date line.
+\makeatletter
+\renewcommand*{\makeletterhead}{%
+  \recomputeletterlengths%
+  \hfill%
+  \begin{minipage}{.5\textwidth}%
+    \if@details%
+      \raggedleft%
+      \addressfont\textcolor{color2}{%
+        {\bfseries\upshape\@firstname~\@lastname}\@firstdetailselementfalse%
+        \ifthenelse{\isundefined{\@addressstreet}}{}{\makenewline\addresssymbol\@addressstreet%
+          \ifthenelse{\equal{\@addresscity}{}}{}{\makenewline\@addresscity}%
+          \ifthenelse{\equal{\@addresscountry}{}}{}{\makenewline\@addresscountry}}%
+        \collectionloop{phones}{%
+          \makenewline\csname\collectionloopkey phonesymbol\endcsname\collectionloopitem}%
+        \ifthenelse{\isundefined{\@email}}{}{\makenewline\emailsymbol\emaillink{\@email}}%
+        \ifthenelse{\isundefined{\@homepage}}{}{\makenewline\homepagesymbol\httpslink{\@homepage}}%
+        \ifthenelse{\isundefined{\@extrainfo}}{}{\makenewline\@extrainfo}}\fi%
+    \end{minipage}\\[1.5em]
+% \hfill\@date\\[1.5em]%
+  \raggedright%
+  \@opening\\[1em]%
+  \hspace{0pt}\par\vspace{-\baselineskip}\vspace{-\parskip}}
+\makeatother
+
+% ---- word-boundary safety (do not delete) --------------------------------
+% When TeX squeezes a justified line, the interword space can shrink below
+% what a PDF text extractor needs to see a word boundary, and a whole phrase
+% comes out of the parser as one unreadable token. Zeroing the shrink and
+% raising the tolerance makes TeX accept a slightly loose line instead.
+% Verified against the bundled scorer: without this, summary and bullet text
+% extracts as "graphneuralnetworks,machine-learnedinteratomicpotentials".
+\tolerance=3000
+\emergencystretch=3em
+\AtBeginDocument{\fontdimen4\font=0pt}
+
+% ---- per-application values (fill these, then use them in the body) ----
+\newcommand\theposition{Exact Position Title From The Posting}
+\newcommand\theunit{Division or Group Name}
+\newcommand\theorg{Organization Name}
+
+\begin{document}
+
+\opening{Dear Hiring Manager,}
+\closing{Sincerely,\vspace{-6ex}}
+
+\makelettertitle
+\justifying
+
+% --- Opening paragraph, short -------------------------------------
+% Name the role and organization verbatim from the JD. State the single
+% strongest evidence-backed match. No "I am writing to apply for".
+I am applying for the \textit{\theposition} position in \theunit\ at \theorg. Open with the one credential that most directly answers this posting, stated as fact.
+
+% --- Body: NO fixed length or paragraph count ---------------------
+% The style examples in inputs/cover-letter-examples/ govern how this
+% part is organized and how long it runs. Two shapes both work:
+%   (a) two or three flowing evidence paragraphs — short industry letter;
+%   (b) one \textbf{bold heading:} per posting requirement, each followed
+%       by a paragraph — common for research-staff and national-lab roles.
+% Follow whatever the examples show. Only --cl-pages N imposes a cap.
+% Every claim traces to profile.json, including anything an example
+% mentions: an example is a style reference, never a content source.
+\textbf{First posting requirement:} Evidence answering it. Name specific projects, methods, and outcomes, with quantification where the profile genuinely has it. Mirror the posting's vocabulary only where real experience backs it.
+
+\textbf{Second posting requirement:} Same again. Add or remove headings to match the posting and the examples.
+
+% --- Closing paragraph, short -------------------------------------
+% One sentence on the contribution, then the thank-you. No filler.
+Thank you for considering my application. Close by naming what specifically about this group's work you want to contribute to.
+
+\vspace{2ex}
+\makeletterclosing
+
+\end{document}

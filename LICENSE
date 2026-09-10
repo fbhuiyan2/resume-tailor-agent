@@ -1,0 +1,34 @@
+MIT License
+
+Copyright (c) 2026 Mahmoud Mustafa (NoahMustafa)
+Copyright (c) 2026 Fakhrul Hasan Bhuiyan
+
+This repository is a derivative work of
+https://github.com/NoahMustafa/open-resume-agent, originally created by
+Mahmoud Mustafa and released under the MIT License. It has been created
+and substantially modified by Fakhrul Hasan Bhuiyan, and remains MIT-licensed.
+The original copyright notice above is retained as the license requires.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+Note: this license covers the Markdown playbooks, templates, and references
+in this repository. The bundled binaries (`tool`, `tectonic`) are fetched by
+`/resume-engine-setup` and are governed by their own upstream licenses — see
+[TOOL-README.md](TOOL-README.md) and
+[tectonic-typesetting/tectonic](https://github.com/tectonic-typesetting/tectonic).

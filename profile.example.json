@@ -1,0 +1,277 @@
+{
+  "meta": {
+    "version": 1,
+    "last_updated": "2026-01-01T00:00:00Z",
+    "source": "cv,github,manual",
+    "counts": {
+      "publications_total": 0,
+      "talks_total": 0
+    }
+  },
+  "identity": {
+    "name": "Jane Doe",
+    "location": "City, Country",
+    "contact": {
+      "email": "jane@example.com",
+      "phone": "+1 555 555 5555",
+      "linkedin": "https://linkedin.com/in/janedoe",
+      "github": "https://github.com/janedoe",
+      "website": "https://janedoe.dev"
+    },
+    "work_authorization": ""
+  },
+  "summary_seeds": [
+    "5 years building data pipelines in Python and SQL",
+    "Shipped 3 production ML systems end to end",
+    "Led a team of 4 backend engineers at <Company>"
+  ],
+  "skills": {
+    "languages": [
+      {
+        "name": "Python",
+        "tags": [
+          "data",
+          "backend"
+        ],
+        "recency": "current"
+      },
+      {
+        "name": "SQL",
+        "tags": [
+          "data"
+        ],
+        "recency": "current"
+      }
+    ],
+    "frameworks": [
+      {
+        "name": "FastAPI",
+        "tags": [
+          "backend",
+          "api"
+        ]
+      }
+    ],
+    "tools": [
+      {
+        "name": "PostgreSQL",
+        "tags": [
+          "data"
+        ]
+      },
+      {
+        "name": "Airflow",
+        "tags": [
+          "data",
+          "etl"
+        ]
+      }
+    ],
+    "domains": [
+      "data engineering",
+      "backend"
+    ]
+  },
+  "experience": [
+    {
+      "company": "Acme Corp",
+      "title": "Senior Data Engineer",
+      "location": "Remote",
+      "start": "Jan 2023",
+      "end": "present",
+      "bullets": [
+        {
+          "text": "Built ingestion pipeline processing 2B events/day across 12 sources.",
+          "tags": [
+            "python",
+            "etl",
+            "kafka",
+            "scale"
+          ],
+          "metric": "2B events/day"
+        },
+        {
+          "text": "Cut query latency from 8s to 400ms by introducing materialized rollups.",
+          "tags": [
+            "sql",
+            "performance"
+          ],
+          "metric": "20x latency improvement"
+        }
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "name": "openpipe",
+      "stack": [
+        "Python",
+        "DuckDB",
+        "Polars"
+      ],
+      "url": "https://github.com/janedoe/openpipe",
+      "dates": "2024",
+      "bullets": [
+        {
+          "text": "Single-binary ETL CLI for small-data workflows.",
+          "tags": [
+            "python",
+            "cli",
+            "etl"
+          ]
+        }
+      ],
+      "highlight_for": [
+        "data",
+        "backend"
+      ]
+    }
+  ],
+  "education": [
+    {
+      "institution": "State University",
+      "degree": "B.Sc.",
+      "field": "Computer Science",
+      "graduation": "Jun 2020",
+      "gpa": ""
+    }
+  ],
+  "publications": [
+    {
+      "authors": "Doe, J., Smith, A., and Lee, B.",
+      "year": 2025,
+      "title": "Full title of the paper as published.",
+      "venue": "Journal Name",
+      "volume": "12(3)",
+      "pages": "101-115",
+      "status": "published",
+      "status_verbatim": "",
+      "first_author": true,
+      "tags": [
+        "method-tag",
+        "domain-tag"
+      ]
+    },
+    {
+      "authors": "Doe, J., and Chen, C.",
+      "year": 2026,
+      "title": "A paper that is not out yet.",
+      "venue": "Other Journal",
+      "volume": "",
+      "pages": "",
+      "status": "accepted",
+      "status_verbatim": "(Accepted, Other Journal.)",
+      "first_author": true,
+      "tags": [
+        "method-tag"
+      ]
+    }
+  ],
+  "talks": [
+    {
+      "title": "Talk title",
+      "venue": "Conference Name",
+      "date": "Mar 2025",
+      "type": "oral",
+      "tags": [
+        "domain-tag"
+      ]
+    }
+  ],
+  "leadership": [
+    {
+      "role": "Project Mentor",
+      "organization": "Program, Organization",
+      "location": "City, ST",
+      "dates": "Aug 2025",
+      "bullets": [
+        {
+          "text": "Led a hands-on project for undergraduate students.",
+          "tags": [
+            "mentoring"
+          ]
+        }
+      ]
+    }
+  ],
+  "awards": [
+    {
+      "name": "Award Name",
+      "issuer": "Awarding Body",
+      "amount_usd": 0,
+      "date": "Spring 2024",
+      "tags": []
+    }
+  ],
+  "funding": [
+    {
+      "name": "Seed grant name",
+      "amount_usd": 50000,
+      "role": "PI",
+      "year": "2025",
+      "tags": [
+        "proposal-writing"
+      ]
+    }
+  ],
+  "certifications": [],
+  "references": [
+    {
+      "name": "Dr. Alex Referee",
+      "title": "Group Leader",
+      "department": "Materials Science Division",
+      "organization": "Example National Laboratory",
+      "email": "areferee@example.gov",
+      "phone": "",
+      "relationship": "Postdoc supervisor",
+      "default": true
+    },
+    {
+      "name": "Prof. Sam Advisor",
+      "title": "Professor of Mechanical Engineering",
+      "department": "",
+      "organization": "Example University",
+      "email": "sadvisor@example.edu",
+      "phone": "",
+      "relationship": "PhD advisor",
+      "default": false
+    }
+  ],
+  "keyword_bank": [
+    "python",
+    "sql",
+    "etl",
+    "kafka",
+    "airflow",
+    "postgresql",
+    "fastapi",
+    "data engineering"
+  ],
+  "enrichment": {
+    "github": {
+      "fetched_at": "2026-01-01T00:00:00Z",
+      "username": "janedoe",
+      "repos": [
+        {
+          "name": "openpipe",
+          "desc": "Single-binary ETL CLI for small-data workflows.",
+          "stars": 42,
+          "stack": [
+            "Python",
+            "DuckDB"
+          ],
+          "included": true
+        },
+        {
+          "name": "experiments-2023",
+          "desc": "Random experiments, nothing shippable.",
+          "stars": 0,
+          "stack": [
+            "Python"
+          ],
+          "included": false
+        }
+      ]
+    }
+  }
+}

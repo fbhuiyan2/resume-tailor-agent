@@ -1,0 +1,46 @@
+name: Feature request
+description: A concrete change that would make the engine better. Not a vague wish.
+title: "[feat] "
+labels: ["enhancement", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before opening: this repo is a Markdown playbook system. Glue code, build steps, web UIs, and new external dependencies will be declined. See [CONTRIBUTING.md](../blob/main/CONTRIBUTING.md#what-this-project-does-not-want).
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this solve?
+      description: One paragraph. The pain you have today.
+      placeholder: "The accept gate ships at score ≥ 85, but for senior roles I want a higher bar without editing the playbook."
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change
+      description: Be specific. Which file, which section, what the new behavior is.
+      placeholder: "Add a `--target N` flag to /tailor that overrides the default 85 floor. Doc it in skills/tailor/SKILL.md §2b."
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      placeholder: "Hardcoding 90 in the playbook — rejected, want per-run control. Editing locally — rejected, want it shipped."
+
+  - type: dropdown
+    id: scope-check
+    attributes:
+      label: Does this fit the project's scope?
+      description: See CONTRIBUTING.md. Picking "no" is fine — it's a signal you've thought about it.
+      options:
+        - "Yes — Markdown playbook / template / docs change only"
+        - "Yes — small change to LaTeX template"
+        - "Maybe — touches scoring math (open-ATS upstream concern?)"
+        - "No — but I think it's worth discussing anyway"
+    validations:
+      required: true

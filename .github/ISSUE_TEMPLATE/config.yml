@@ -1,0 +1,17 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Live demo (open-ATS scorer)
+    url: https://open-ats-site.pages.dev/
+    about: Try the underlying ATS scorer in your browser — no install, no upload.
+  - name: open-ATS (the bundled scorer)
+    url: https://github.com/NoahMustafa/open-ATS/issues
+    about: Bugs in the scoring math, parser, or binaries themselves belong upstream.
+  - name: Discussions
+    url: https://github.com/fbhuiyan2/resume-tailor-agent/discussions
+    about: Design questions, "how do I…", show-and-tell, non-bug feedback.
+  - name: Upstream project (original)
+    url: https://github.com/NoahMustafa/open-resume-agent
+    about: This repo is a derivative of NoahMustafa/open-resume-agent. Issues with the original belong there.
+  - name: Security report
+    url: mailto:fbhuiyan@anl.gov
+    about: For security issues, email — don't open a public issue. See SECURITY.md.

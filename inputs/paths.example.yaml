@@ -1,0 +1,73 @@
+# inputs/paths.yaml — OPTIONAL per-machine config.
+#
+# Copy to inputs/paths.yaml and edit. Every key is optional; anything you
+# omit or leave empty uses the default shown above it. A single-machine
+# setup needs none of this. Set a key when something lives outside the
+# repo: a profile in a private record, style examples in a synced folder.
+#
+# inputs/ is gitignored, so this file is per-machine and never published.
+# It also means it does NOT travel with a clone. On a new machine, recreate
+# it from this template — it is a few lines, and it is the one thing that
+# tells the engine where a profile kept outside the repo lives.
+#
+# ~ and $HOME both expand. Relative paths resolve against the engine repo root.
+
+# --- Profile -------------------------------------------------------------
+# Where profile.json lives, and where /profile-build writes it.
+# Default (both empty): inputs/profile.json, inside this repo and gitignored.
+#
+# Set `profile` to keep the profile somewhere that syncs across machines —
+# a private repo, a synced folder. The directory must already exist.
+#
+# `profile_config` points at a profile-config.md, which switches
+# /profile-build into DERIVED mode: profile.json is generated from a richer
+# career record (a CV plus notes) instead of maintained by hand. Leave it
+# empty unless you keep such a record. If it is empty, /profile-build still
+# looks for a profile-config.md sitting next to `profile`.
+# Template: profile-config.example.md in the repo root.
+profile: ""
+profile_config: ""
+
+# --- Style examples ------------------------------------------------------
+# Previous resumes and cover letters, read before each tailoring pass as
+# STYLE guidance only: tone, section shape, bullet rhythm, level of detail.
+# Never as a content source, and never copied from. PDF, DOCX, TXT, or MD.
+# Point these at a private repo if you want them synced across machines.
+resume_examples: "inputs/resume-examples"
+cover_letter_examples: "inputs/cover-letter-examples"
+
+# --- Templates -----------------------------------------------------------
+# resume_template is a MAP of named layouts. Two keys are reserved and pick
+# the layout when the user names none:
+#
+#   default        used at a 1-page budget
+#   default_2page  used at a 2-page budget or more
+#
+# Every other key is a name you can ask for: `--template compact`, or just
+# "use the compact layout" in the request. Values resolve as a path first
+# (~ and $HOME expand), then as templates/<value>.tex.tmpl, so an entry may
+# point at a bundled template by name or at a file in a private repo.
+#
+# Omit the whole key and the same page rule applies to the bundled layouts:
+# 1 page -> resume, 2+ pages -> resume-2page. That is why it is page-aware —
+# a one-page layout given a two-page budget is a stretched one-pager with no
+# Publications and no References section.
+#
+# A bare string (resume_template: "resume") is the older form. Still works,
+# but it is used at every page count, so --pages 2 will NOT switch layouts.
+resume_template:
+  default: "resume"
+  default_2page: "resume-2page"
+  # compact: "~/record/templates/compact.tex.tmpl"
+
+# Cover letters have one layout; a name or a path, same resolution.
+cover_letter_template: "cover-letter"
+
+# --- Output --------------------------------------------------------------
+# Empty = per-run rule: next to the JD file if one was given, otherwise
+# ./resume-agent-output_{company}-{role}/ in the current directory.
+output_root: ""
+
+# --- Defaults ------------------------------------------------------------
+default_pages: 1
+default_target_score: 85

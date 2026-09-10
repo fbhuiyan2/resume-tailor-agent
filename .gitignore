@@ -1,0 +1,44 @@
+# Dev workspace — internal docs not for production repo
+resume-tailor-agent-spec.md
+resume-engine-spec.md
+tasks.md
+
+# Fetched by /setup (per-machine, per-OS)
+tool
+tool.exe
+tectonic
+tectonic.exe
+
+# Profile = source of truth, contains personal info.
+# Legacy root location; the default is now inputs/profile.json (covered below).
+# NOTE: gitignore has no inline comments — a trailing "# ..." becomes part of
+# the pattern and silently stops it matching. Keep comments on their own line.
+profile.json
+profile-config.md
+
+# Per-job seed inputs (CV, github handle, notes — personal)
+inputs/*
+!inputs/.gitkeep
+!inputs/paths.example.yaml
+!inputs/resume-examples/
+!inputs/cover-letter-examples/
+inputs/resume-examples/*
+inputs/cover-letter-examples/*
+!inputs/resume-examples/.gitkeep
+!inputs/cover-letter-examples/.gitkeep
+
+# Per-job artifacts
+outputs/
+
+# OS junk
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Per-job artifacts written outside outputs/ (default name when a JD is pasted)
+resume-agent-output_*/
+job-applications/
+*.pdf
+
+# Local test runs (personal JDs + outputs) — never commit
+test/

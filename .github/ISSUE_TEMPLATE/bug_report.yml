@@ -1,0 +1,88 @@
+name: Bug report
+description: Something in the engine misbehaves — wrong score, broken PDF, playbook step that fails, fabrication slipping through.
+title: "[bug] "
+labels: ["bug", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the report. Keep it specific. One bug per issue.
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Which area?
+      options:
+        - /setup (binary fetch / verification)
+        - /profile-build (profile.json creation / update)
+        - /tailor (per-JD tailoring loop)
+        - LaTeX template / compile
+        - Scoring / accept-gate logic
+        - recommendations.md output
+        - Docs / README
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: One paragraph. What did the engine do that it shouldn't have?
+      placeholder: "Ran /tailor on a Senior DE JD. Engine claimed 95/100 but the PDF contains a bullet about Azure that's not in profile.json."
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+      placeholder: "If profile.json lacks Azure experience, the bullet should be in recommendations.md as a gap — never on the resume."
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: Repro steps
+      description: Be concrete. Paths, commands, harness used.
+      placeholder: |
+        1. Cloned repo at commit <SHA>
+        2. Harness: Claude Code, Opus 4.7
+        3. Ran /tailor with this JD: (paste or attach)
+        4. profile.json had no `azure` tag anywhere
+        5. Got outputs/.../resume.pdf with the offending bullet
+      render: markdown
+    validations:
+      required: true
+
+  - type: textarea
+    id: artifacts
+    attributes:
+      label: Relevant artifacts
+      description: Paste the offending bullet, the JD line that triggered it, and the relevant profile.json module. STRIP personal data first.
+      render: text
+
+  - type: input
+    id: harness
+    attributes:
+      label: Agent / harness
+      placeholder: "Claude Code 1.0.x / OpenCode / Cursor / Aider"
+
+  - type: input
+    id: os
+    attributes:
+      label: OS + arch
+      placeholder: "Windows 11 x86_64 / macOS 14 arm64 / Ubuntu 22.04 x86_64"
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I stripped personal data (name, email, phone, real company names) from any pasted artifact.
+          required: true
+        - label: I'm using the latest `main`.
+          required: true
+        - label: I searched existing issues and this isn't a duplicate.
+          required: true

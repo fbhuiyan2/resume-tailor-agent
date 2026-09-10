@@ -1,0 +1,171 @@
+% ==============================================================
+%  Resume Tailor Agent — ATS-safe LaTeX template (pattern reference)
+%
+%  Agent: do NOT mechanically substitute placeholders. Read this
+%  file as the PATTERN. For each run, write a fresh resume.tex
+%  following the same:
+%   - packages + geometry
+%   - section order: Header, Summary, Skills, Projects, Experience,
+%     Education, Certifications (skip section if empty)
+%   - heading style (\section* with titlerule)
+%   - bullet style (itemize via enumitem, tight spacing)
+%   - link style (hyperref hidelinks, no underline noise)
+%
+%  ATS-safe rules locked here:
+%   - single column, no tabular, no multicol
+%   - no images, no icons, no graphical bullets
+%   - hyperref with mailto:/tel: where applicable so contact info
+%     is recoverable even if rendered as a logo
+%   - 11pt minimum, 0.7in margin floor (see below), page budget per --pages
+%   - Times-clone serif (newtxtext, free, bundled with Tectonic)
+% ==============================================================
+
+\documentclass[11pt,letterpaper]{article}
+
+% Fonts: Nimbus Roman (Times clone, ATS-equivalent, free, bundled)
+\usepackage{newtxtext,newtxmath}
+
+% 0.7in is a HARD FLOOR, not a style choice. At 0.65in and below the bundled
+% scorer false-detects a two-column layout (severity=fail) and text extraction
+% scrambles. Verified by bisection: 0.50-0.65 broken, 0.70+ clean.
+% Never tighten this to fit content. Cut content instead.
+\usepackage[letterpaper,margin=0.7in]{geometry}
+
+% Encoding + microtype for cleaner spacing
+\usepackage[T1]{fontenc}
+\usepackage{microtype}
+
+% Lists — tight, no extra vertical space
+\usepackage{enumitem}
+\setlist[itemize]{leftmargin=*,topsep=2pt,itemsep=1pt,parsep=0pt}
+
+% Hyperlinks — clickable but visually plain
+\usepackage[hidelinks]{hyperref}
+
+% Section headings — bold uppercase + horizontal rule.
+% Hand-rolled to avoid the titlesec + newtxtext + \MakeUppercase
+% incompatibility ("Use of \ttl@row@i doesn't match its definition").
+\newcommand{\rsection}[1]{%
+  \par\vspace{4pt}%
+  \noindent{\large\bfseries\spaceskip=0.33em plus 0.14em minus 0.02em
+    \MakeUppercase{#1}}%
+  \par\vspace{-6pt}%
+  \noindent\rule{\linewidth}{0.5pt}%
+  \par\vspace{2pt}%
+}
+
+\setlength{\parindent}{0pt}
+\pagestyle{empty}
+
+% ---- word-boundary safety (do not delete) --------------------------------
+% When TeX squeezes a justified line, the interword space can shrink below
+% what a PDF text extractor needs to see a word boundary, and a whole phrase
+% comes out of the parser as one unreadable token. Zeroing the shrink and
+% raising the tolerance makes TeX accept a slightly loose line instead.
+% Verified against the bundled scorer: without this, summary and bullet text
+% extracts as "graphneuralnetworks,machine-learnedinteratomicpotentials".
+\tolerance=3000
+\emergencystretch=3em
+% Hyphenation is suppressed outright. A word broken across a line survives
+% into the extracted text WITH the hyphen -- "configu-ration sampling",
+% "agen-tic", "develop-ment" -- so the keyword never matches the JD even
+% though the printed page is correct. Both penalties are needed:
+% \hyphenpenalty stops TeX's automatic hyphenation, \exhyphenpenalty stops it
+% breaking at a hyphen the word already contains ("state-of-" / "the-art").
+\hyphenpenalty=10000
+\exhyphenpenalty=10000
+\AtBeginDocument{\fontdimen4\font=0pt}
+
+% ---- summary block -------------------------------------------------------
+% The summary is JUSTIFIED, like every other paragraph in the document.
+% Never wrap it in \raggedright: it reads as unfinished beside justified
+% bullets, and the settings above already prevent the extraction damage that
+% ragged setting was sometimes used to dodge.
+%
+% \rsummary measures its own rendered height and writes
+%     SUMMARY-LINES: N
+% into the .log, so the four-line budget is checkable exactly the way the
+% page budget is. See the structural-verify step in the playbook.
+\newsavebox{\rsummarybox}
+\newlength{\rsummaryht}
+\newcommand{\rsummary}[1]{%
+  \begin{lrbox}{\rsummarybox}%
+    \begin{minipage}{\linewidth}#1\end{minipage}%
+  \end{lrbox}%
+  \setlength{\rsummaryht}{\ht\rsummarybox}%
+  \addtolength{\rsummaryht}{\dp\rsummarybox}%
+  \typeout{SUMMARY-LINES: \the\numexpr
+    (\number\rsummaryht*2 + \number\dimexpr\baselineskip\relax)
+    /(2*\number\dimexpr\baselineskip\relax)\relax}%
+  \noindent\usebox{\rsummarybox}\par%
+}
+
+\begin{document}
+
+% ====================== Header ======================
+% Center-aligned. Name first, contact line, links line.
+% Use mailto:/tel: hrefs so ATS recovers them from PDF annotations.
+\begin{center}
+  {\Large\bfseries Jane Doe}\\[2pt]
+  City, Country $\cdot$
+  \href{mailto:jane@example.com}{jane@example.com} $\cdot$
+  \href{tel:+15555555555}{+1 555 555 5555}\\[1pt]
+  \href{https://linkedin.com/in/janedoe}{linkedin.com/in/janedoe} $\cdot$
+  \href{https://github.com/janedoe}{github.com/janedoe}
+\end{center}
+
+% ====================== Summary ======================
+% Justified, and at most FOUR rendered lines -- \rsummary writes
+% "SUMMARY-LINES: N" to the .log so the budget is verifiable.
+\rsection{Summary}
+\rsummary{One-to-two-line factual statement assembled from \texttt{profile.summary\_seeds}, weighted toward JD keywords the profile genuinely supports. No fabrication, no AI filler.}
+
+% ====================== Skills ======================
+% Categorized lines — Tier 1 (skill gazetteer) reads these directly.
+\rsection{Skills}
+\textbf{Languages:} Python, SQL\\
+\textbf{Frameworks:} dbt, Apache Airflow\\
+\textbf{Tools:} PostgreSQL, Power BI, pandas\\
+\textbf{Domains:} Data Engineering, ETL, Data Modeling
+
+% ====================== Projects (before Experience for fresh-grad strength) ======================
+\rsection{Projects}
+
+\textbf{Example Project Name} \hfill Mon YYYY\\
+\textit{Stack: Python, PostgreSQL, dbt, Power BI}\\
+\href{https://github.com/user/repo}{github.com/user/repo}
+\begin{itemize}
+  \item Action verb opening. One factual outcome with a metric when one exists. 1–2 lines max.
+  \item Second bullet only if it adds a distinct signal. Otherwise omit.
+\end{itemize}
+
+\textbf{Another Project} \hfill Mon YYYY\\
+\textit{Stack: Python, Apache Airflow, AsyncIO, PostgreSQL}
+\begin{itemize}
+  \item One sentence describing what was built and the scale or measurable impact.
+\end{itemize}
+
+% ====================== Experience ======================
+% Omit entire section if profile.experience is empty.
+\rsection{Experience}
+
+\textbf{Job Title (Contract / Full-time / Internship)} \hfill Mon YYYY -- Mon YYYY\\
+\textit{Company} \hfill Location
+\begin{itemize}
+  \item Action verb opening. What was done, what changed because of it.
+  \item Second bullet, distinct signal only.
+\end{itemize}
+
+% ====================== Education ======================
+\rsection{Education}
+
+\textbf{BSc Computer Science} \hfill Mon YYYY\\
+\textit{University Name, Faculty / Department}
+
+% ====================== Certifications (skip if empty) ======================
+% \rsection{Certifications}
+% \begin{itemize}
+%   \item Certification Name, Issuer (Mon YYYY)
+% \end{itemize}
+
+\end{document}
